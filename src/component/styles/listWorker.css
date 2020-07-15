@@ -1,0 +1,56 @@
+*{
+    box-sizing: border-box ;
+}
+
+.containerList{
+    color: black;
+    text-align: center;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    width: max-content;
+    padding: 20px;
+}
+
+.containerList h1{
+    font-weight: 400;
+    font-size: x-large;
+    float: left;
+    margin-right: 30%;
+}
+
+.containerList button{
+    float: right;
+    transform: translate(40%,-150%);
+    padding: 5px 30px;
+    background-color: black;
+    color: white;
+    border-radius: 50px;
+    border: black;
+    outline: none;
+}
+
+.containerList button:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    transition-duration: 0.5s;
+    cursor: pointer;
+}
+
+.containerList li{
+    width: 75%;
+    float: left;
+    padding:0;
+    transform: translate(-20%,0);
+}
+
+.containerList input{
+    width: 25%;
+    float: right;
+    transform: translate(80%,-300%);
+}
+
+.containerList input:hover{
+    cursor: pointer;
+}
+
+

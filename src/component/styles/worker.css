@@ -1,0 +1,72 @@
+*{
+    box-sizing: border-box;
+}
+.containerWorker{
+    background-color: white;
+    color:black;
+    padding:20px;
+    font-weight: 500;
+    font-size: large;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.containerWorker:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    transition-duration: 0.5s;
+}
+
+
+.formElementsWorker label{
+    display: block;
+    padding: 10px;
+    margin-bottom: 30px;
+}
+
+.formElementsWorker input{
+    border: none;
+    border-bottom: 2px solid rgba(195, 195, 195, 0.644);
+    outline: none;
+    width: 100%;
+    display: block;
+    padding: 10px;
+    margin-bottom: 30px;
+}
+
+.formElementsWorker select{
+    border:none;
+    background-color: white;
+    padding: 16px;
+    width: 100%;
+}
+
+.formElementsWorker select:hover{
+    cursor: pointer;
+}
+
+.genderRadio label{
+    padding: 10px;
+}
+
+.genderRadio input{
+    display: inline;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.containerWorker button{
+    background-color: black;
+    color: white;
+    border: black;
+    padding: 20px 50px;
+    border-radius: 20px;
+    font-size: medium;
+    font-weight: 500;
+    outline: none;
+}
+
+.containerWorker button:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    transition-duration: 0.5s;
+    cursor: pointer;
+}

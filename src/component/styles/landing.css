@@ -1,0 +1,68 @@
+.main{
+    color: black;
+    text-align: center;
+}
+
+.head{
+    font-size: 5vw;
+}
+
+.split{
+    bottom: 0;
+    height:90%;
+    width: 50%;
+    position: absolute;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.left{
+    left:0;
+}
+
+.vertical{
+    border-left: 1px solid grey;
+    height: 60%;
+    position: absolute;
+    left: 50%;
+    margin-left: -3px;
+    bottom: 10%;
+    opacity: 0.5;
+}
+
+.right{
+    right: 0;
+}
+
+.centered{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+}
+
+.centered h3{
+    font-weight: 700;
+}
+
+.centered button{
+    background-color: black;
+    color: white;
+    padding: 20px;
+    border-radius: 100px;
+    font-size: medium;
+    width: 100%;
+    font-weight: 500;
+    border: black;
+    outline: none;
+}
+
+.centered button:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    transition-duration: 0.5s;
+    cursor: pointer;
+}
+
+
+

@@ -1,0 +1,25 @@
+.filterBar{
+    display: inline;
+}
+
+.filterBar select{
+    border: none;
+    outline: none;
+    background-color: white;
+    font-weight: 700;
+    font-size: large;
+    padding-right: 5%;
+    margin-right: 5%;
+    transform: translate(0,-50%);
+    width: 18%;
+}
+
+.filterBar select:hover{
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 800px){
+    .filterBar select{
+        width: 50%;
+    }
+}
