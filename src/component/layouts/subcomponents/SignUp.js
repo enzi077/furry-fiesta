@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import SignIn from './SignIn'
+import firebaseOb from '../../../firebase'
 import '../../styles/register.css'
 
 class SignUp extends Component {
@@ -12,8 +13,15 @@ class SignUp extends Component {
              hirerPassword:'',
              hirerContact:'',
              hirerOrg:'',
-             page:'signup'
+             selectedWorkers: [],
+             page:props.page
         }
+    }
+    
+    componentDidMount=()=>{
+        this.setState({
+            page: 'signup'
+        })
     }
     
     onChngTxt=(e)=>{
@@ -25,15 +33,42 @@ class SignUp extends Component {
     
     submitFormHandler=(e)=>{
         //send hirer details to database from here
-        //below is for demo purpose only
-        const {hirerName,hirerEmail,hirerContact,hirerOrg}=this.state
-        alert(`
-            Name: ${hirerName},
-            Email: ${hirerEmail},
-            Contact:${hirerContact},
-            Org:${hirerOrg}
-        `)
+        const {hirerName,hirerEmail,hirerPassword,hirerContact,hirerOrg,selectedWorkers}=this.state
+        const hirerData={
+            hirerName,
+            hirerEmail,
+            hirerContact,
+            hirerOrg,
+            selectedWorkers
+        }
+        var firebaseDb=firebaseOb.database().ref()
+        firebaseOb.auth().createUserWithEmailAndPassword(hirerEmail,hirerPassword)
+        .then(function() {
+            firebaseDb.child('hirers').push(
+                hirerData,
+                err=>{
+                    if(err)
+                        console.log(err);
+                }
+            )
+        })
+        .catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code
+            var errorMessage = error.message
+            // ...
+            if (errorCode === 'auth/weak-password') {
+                alert('The password is too weak.')
+            } else {
+                alert(errorMessage)
+            }
+            console.log(error)
+        })
+        
         e.preventDefault()
+        this.setState({
+            page:'signin'
+        })
     }
     
     gotoSignIn=()=>{
@@ -99,7 +134,7 @@ class SignUp extends Component {
         else{
             return(
                 <div>
-                    <SignIn page={page}/>
+                    <SignIn onSignIn={this.props.onSignIn}/>
                 </div>
             )
         }

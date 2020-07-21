@@ -2,12 +2,14 @@ import React, { Component } from 'react'
 import WriteUp from './WorkerformWriteUp'
 import '../styles/worker.css'
 import Landing from './Landing'
+import firebaseOb from '../../firebase'
 
 class WorkerForm extends Component {
     constructor(props) {
         super(props)
     
         this.state = {
+             workers:[],
              name:'',
              gender:'',
              age:'',
@@ -15,6 +17,7 @@ class WorkerForm extends Component {
              state:'',
              prevWork:'',
              contact:'',
+             available:true,
              page: props.page
         }
     }
@@ -42,22 +45,30 @@ class WorkerForm extends Component {
     
     submitFormHandler=(e)=>{
         //upload/add worker data to database in this method
-        const {name,gender,age,city,state,prevWork,contact}=this.state
-        alert(`
-            Name: ${name},
-            Gender: ${gender},
-            Age: ${age},
-            City: ${city},
-            State: ${state},
-            Prevworked: ${prevWork},
-            Contact: ${contact}
-        `)
-        // e.preventDefault() //to prevent form refresh
-        //display pop up message or alert that worker has successfully submitted form
-        //then return to landing/home page
+        const {name,gender,age,city,state,prevWork,contact,available}=this.state
+        var firebaseDb=firebaseOb.database().ref()
+        const data={
+            name,
+            gender,
+            age,
+            city,
+            state,
+            prevWork,
+            contact,
+            available
+        }
+        
+        firebaseDb.child('workers').push(
+            data,
+            err=>{
+                if(err)
+                    console.log(err);
+            }
+        )
         this.setState({
             page:'home'
         })
+        e.preventDefault()
     }
     
     render() {

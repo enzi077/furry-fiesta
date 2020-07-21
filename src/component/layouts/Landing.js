@@ -55,7 +55,7 @@ class Landing extends Component {
             case 'workerform':
                 return <WorkerForm page={page}/>
             case 'hirermain':
-                return <HirerMain page={page}/>
+                return <HirerMain/>
             default:
                 return (
                     <div className='main'>

@@ -7,7 +7,7 @@ class UserPicks extends Component {
         super(props)
     
         this.state = {
-             selectedUsers:props.selectedUsers
+             selectedWorkers:props.selectedWorkers
         }
     }
     
@@ -16,7 +16,7 @@ class UserPicks extends Component {
         axios.get("https://jsonplaceholder.typicode.com/users")
             .then(res=>{
                 this.setState({
-                    selectedUsers: res.data
+                    selectedWorkers: res.data
                 })
             })
     }
@@ -33,11 +33,10 @@ class UserPicks extends Component {
                 <h1>Your picks :</h1>
                 <button type="submit" onClick={this.onPick}>Hire all</button>
                 <ol type="1">
-                    {this.state.selectedUsers.map(user=>(
+                    {this.state.selectedWorkers.map(user=>(
                         <div key={user.id}>
                             <li>
                                 {user.name}<br/>
-                                {user.email}
                             </li>
                         </div>
                         ))
