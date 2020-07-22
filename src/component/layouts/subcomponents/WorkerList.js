@@ -3,6 +3,7 @@ import '../../styles/listWorker.css'
 import firebaseOb from '../../../firebase'
 
 class WorkerList extends Component {
+    _isMounted=false
     constructor(props) {
         super(props)
     
@@ -17,6 +18,7 @@ class WorkerList extends Component {
     }
     
     componentDidMount(){
+        this._isMounted=true
         //data for both users and selectedUsers would be retrieved from database
         //get them here
         var firebaseDb=firebaseOb.database().ref()
@@ -37,10 +39,16 @@ class WorkerList extends Component {
                 })
             }
             
-            this.setState({
-                workers: newState
-            })
+            if(this._isMounted){
+                this.setState({
+                    workers: newState
+                })
+            }
         })
+    }
+    
+    componentWillUnmount(){
+        this._isMounted=false
     }
     
     //sets the value of selectedUsers with checkbox check

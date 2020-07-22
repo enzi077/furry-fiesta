@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import '../../styles/userpicks.css'
 import firebaseOb from '../../../firebase'
-import axios from 'axios'
 
 class UserPicks extends Component {
+    _isMounted=false
     constructor(props) {
         super(props)
     
@@ -13,10 +13,12 @@ class UserPicks extends Component {
     }
     
     componentDidMount(){
+        this._isMounted=true
         //here selectedWorkers would be retrieved from database
         let newState=[]
         var currentHirer=firebaseOb.auth().currentUser
         var hirerRef=firebaseOb.database().ref().child('hirers')
+        if(currentHirer){
             hirerRef.on('value',function(snapshot){
                 snapshot.forEach(function(hirer) {
                     if(currentHirer.email===hirer.val().hirerEmail){
@@ -31,11 +33,21 @@ class UserPicks extends Component {
                     }
                 })
             })
+        }else{
+            this.render()
+        }
         setInterval(()=>{
-            this.setState({
-                selectedWorkers: newState
-            })
+            if(this._isMounted)
+            {
+                this.setState({
+                    selectedWorkers: newState
+                })
+            }
         }, 2000)
+    }
+    
+    componentWillUnmount(){
+        this._isMounted=false
     }
     
     onPick=()=>{

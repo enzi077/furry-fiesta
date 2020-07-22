@@ -4,6 +4,7 @@ import firebaseOb from '../../../firebase'
 import '../../styles/register.css'
 
 class SignUp extends Component {
+    _isMounted=false
     constructor(props) {
         super(props)
     
@@ -18,10 +19,17 @@ class SignUp extends Component {
         }
     }
     
-    componentDidMount=()=>{
-        this.setState({
-            page: 'signup'
-        })
+    componentDidMount(){
+        this._isMounted=true
+        if(this._isMounted){
+            this.setState({
+                page: 'signup'
+            })
+        }
+    }
+    
+    componentWillUnmount(){
+        this._isMounted=false
     }
     
     onChngTxt=(e)=>{
@@ -33,13 +41,12 @@ class SignUp extends Component {
     
     submitFormHandler=(e)=>{
         //send hirer details to database from here
-        const {hirerName,hirerEmail,hirerPassword,hirerContact,hirerOrg,selectedWorkers}=this.state
+        const {hirerName,hirerEmail,hirerPassword,hirerContact,hirerOrg}=this.state
         const hirerData={
             hirerName,
             hirerEmail,
             hirerContact,
-            hirerOrg,
-            selectedWorkers: []
+            hirerOrg
         }
         var firebaseDb=firebaseOb.database().ref()
         firebaseOb.auth().createUserWithEmailAndPassword(hirerEmail,hirerPassword)

@@ -9,6 +9,7 @@ import Landing from './Landing'
 import firebaseOb from '../../firebase'
 
 export class HirerUser extends Component {
+    _isMounted=false
     constructor(props) {
         super(props)
     
@@ -23,14 +24,19 @@ export class HirerUser extends Component {
     }
     
     componentDidMount(){
+        this._isMounted=true
         firebaseOb.auth().onAuthStateChanged(function(user){
             if(user){
                 console.log('sign in successful');
             }else{
                 console.log('no user');
-                this.render()
+                //this.render()
             }
         })
+    }
+    
+    componentWillUnmount(){
+        this._isMounted=false
     }
     
     userProfile=(e)=>{
