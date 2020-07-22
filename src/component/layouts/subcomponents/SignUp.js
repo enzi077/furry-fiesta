@@ -39,7 +39,7 @@ class SignUp extends Component {
             hirerEmail,
             hirerContact,
             hirerOrg,
-            selectedWorkers
+            selectedWorkers: []
         }
         var firebaseDb=firebaseOb.database().ref()
         firebaseOb.auth().createUserWithEmailAndPassword(hirerEmail,hirerPassword)

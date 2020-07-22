@@ -25,9 +25,10 @@ export class HirerUser extends Component {
     componentDidMount(){
         firebaseOb.auth().onAuthStateChanged(function(user){
             if(user){
-                console.log(user.email);
+                console.log('sign in successful');
             }else{
                 console.log('no user');
+                this.render()
             }
         })
     }

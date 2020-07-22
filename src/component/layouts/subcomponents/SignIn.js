@@ -17,9 +17,9 @@ class SignIn extends Component {
     
     submitFormHandler=(e)=>{
         firebaseOb.auth().signInWithEmailAndPassword(this.state.hirerEmail, this.state.hirerPassword)
-        .then(()=>{
+        .then(
             this.props.onSignIn()
-        })
+        )
         .catch(function(error) {
           // Handle Errors here.
           var errorCode = error.code;

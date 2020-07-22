@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import '../../styles/listWorker.css'
 import firebaseOb from '../../../firebase'
-// import axios from 'axios'
 
 class WorkerList extends Component {
     constructor(props) {
@@ -9,10 +8,11 @@ class WorkerList extends Component {
     
         this.state = {
              workers: props.workers,
-             selectedUsers: props.selectedUsers,
+             selectedWorkers: [],
              state: props.state,
              gender:props.gender,
-             age:props.age
+             age:props.age,
+             isChecked: false
         }
     }
     
@@ -44,19 +44,41 @@ class WorkerList extends Component {
     }
     
     //sets the value of selectedUsers with checkbox check
-    //onPick method confirms this state to the database
-    handleChange=(worker)=>{
-        this.setState({
-            selectedUsers:[...this.state.selectedUsers,worker]
-        })
+    handleChange=(worker,e)=>{
+        if(e.target.checked===true){
+            this.setState({
+                selectedWorkers:[...this.state.selectedWorkers,worker]
+            })
+        }else{
+            this.setState({
+                selectedWorkers:this.state.selectedWorkers.filter(function(person){
+                    return person!==worker
+                })
+            })
+        }
     }
-    
     //this method calls on pick button listener
     //will send the selectedUsers state to the database
     onPick=(e)=>{
-        // axios.post("https://jsonplaceholder.typicode.com/users",{
-        //     selectedUsers
-        // })
+        var currentHirer=firebaseOb.auth().currentUser
+        var hirerRef=firebaseOb.database().ref().child('hirers')
+        if(currentHirer)
+        {
+            var myWorkers= []
+            myWorkers=this.state.selectedWorkers
+            hirerRef.on('value',function(snapshot){
+                snapshot.forEach(function(hirer){
+                    if(currentHirer.email===hirer.val().hirerEmail){
+                        var firebaseDb=firebaseOb.database().ref('hirers/'+hirer.key)
+                            firebaseDb.update({
+                                selectedWorkers: myWorkers
+                            })
+                    }
+                })
+            })
+        }else{
+            this.render()
+        }
     }
     
     render() {
@@ -78,8 +100,9 @@ class WorkerList extends Component {
                                     <b>Name:</b> {worker.name} <br/>
                                     <b>Previous work:</b> {worker.prevWork}
                                 </li>
-                                <input type="checkbox" id={worker.id} value={worker} 
-                                    onChange={()=>this.handleChange(worker)}
+                                <input type="checkbox" id={worker.id} 
+                                    value={worker} 
+                                    onChange={(e)=>this.handleChange(worker,e)}
                                 />
                             </div>
                             )
