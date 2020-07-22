@@ -8,20 +8,18 @@ class UserPicks extends Component {
         super(props)
     
         this.state = {
-             selectedWorkers:[]
+             selectedWorkers:props.selectedWorkers
         }
     }
     
     componentDidMount(){
-        //here selectedUsers would be retrieved from database
+        //here selectedWorkers would be retrieved from database
         let newState=[]
         var currentHirer=firebaseOb.auth().currentUser
         var hirerRef=firebaseOb.database().ref().child('hirers')
             hirerRef.on('value',function(snapshot){
-                //let newState=[]
                 snapshot.forEach(function(hirer) {
                     if(currentHirer.email===hirer.val().hirerEmail){
-                        //var firebaseDb=firebaseOb.database().ref('hirers/'+hirer.key)
                         let myWorkers=hirer.val().selectedWorkers
                         for(let myWorker in myWorkers){
                             newState.push({
@@ -33,14 +31,32 @@ class UserPicks extends Component {
                     }
                 })
             })
-        this.setState({
-            selectedWorkers: newState
-        })
+        setInterval(()=>{
+            this.setState({
+                selectedWorkers: newState
+            })
+        }, 2000)
     }
     
     onPick=()=>{
-        //send hired messages to the workers cell phone 
-        //with important hirer details
+        var workerRef=firebaseOb.database().ref().child('workers')
+        var myWorkers=this.state.selectedWorkers
+            workerRef.on('value',function(snapshot){
+                snapshot.forEach(function(worker){
+                    myWorkers.map(selectedWorker=>{
+                        var firebaseDb=firebaseOb.database().ref('workers/'+worker.key)
+                        if(worker.key===selectedWorker.id){
+                            firebaseDb.update({
+                                available: false
+                            })
+                        }else{
+                            firebaseDb.update({
+                                available: true
+                            })
+                        }
+                    })
+                })
+            })
     }
     
     
@@ -50,14 +66,16 @@ class UserPicks extends Component {
                 <h1>Your picks :</h1>
                 <button type="submit" onClick={this.onPick}>Hire all</button>
                 <ol type="1">
-                    {this.state.selectedWorkers.map(myWorker=>(
-                        <div key={myWorker.id}>
-                            <li>
-                                <b>Name:</b> {myWorker.name} <br/>
-                                <b>Previous work:</b> {myWorker.prevWork}
-                            </li>
-                        </div>
-                        ))
+                    {this.state.selectedWorkers
+                        .map(myWorker=>(
+                            <div key={myWorker.id}>
+                                <li>
+                                    <b>Name:</b> {myWorker.name} <br/>
+                                    <b>Previous work:</b> {myWorker.prevWork}
+                                </li>
+                            </div>
+                            )
+                        )
                     }
                 </ol>
             </div>

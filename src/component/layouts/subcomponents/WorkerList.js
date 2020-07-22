@@ -59,7 +59,7 @@ class WorkerList extends Component {
     }
     //this method calls on pick button listener
     //will send the selectedUsers state to the database
-    onPick=(e)=>{
+    onPick=()=>{
         var currentHirer=firebaseOb.auth().currentUser
         var hirerRef=firebaseOb.database().ref().child('hirers')
         if(currentHirer)
