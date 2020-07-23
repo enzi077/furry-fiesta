@@ -34,14 +34,15 @@ class ProfileList extends Component {
             })
         })
         
-        setInterval(()=>{
+        //setInterval(()=>{
+            console.log(newState);
             if(this._isMounted)
             {
                 this.setState({
                     selectedWorkers: newState
                 })
             }
-        }, 2000)
+        //}, 50)
     }
     
     componentWillUnmount(){
@@ -76,8 +77,8 @@ class ProfileList extends Component {
             hirerRef.on('value',function(snapshot){
                 snapshot.forEach(function(hirer){
                     if(currentHirer.email===hirer.val().hirerEmail){
-                        var firebaseDb=firebaseOb.database().ref('hirers/'+hirer.key+'/selectedWorkers')
-                            firebaseDb.set({
+                        var firebaseDb=firebaseOb.database().ref('hirers/'+hirer.key)
+                            firebaseDb.update({
                                 selectedWorkers: setNewWorker
                             })
                     }
@@ -87,7 +88,7 @@ class ProfileList extends Component {
             var updtWorkerList=this.state.workerAvailable
             workerRef.on('value',function(snapshot){
                 snapshot.forEach(function(worker){
-                    updtWorkerList.map(updtWorker=>{
+                    updtWorkerList.forEach(updtWorker=>{
                         var firebaseDb=firebaseOb.database().ref('workers/'+worker.key)
                         if(worker.key===updtWorker.id){
                             firebaseDb.update({

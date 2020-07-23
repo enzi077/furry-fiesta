@@ -9,7 +9,6 @@ import Landing from './Landing'
 import firebaseOb from '../../firebase'
 
 export class HirerUser extends Component {
-    _isMounted=false
     constructor(props) {
         super(props)
     
@@ -21,22 +20,6 @@ export class HirerUser extends Component {
              age:'',
              page:'hireruser'
         }
-    }
-    
-    componentDidMount(){
-        this._isMounted=true
-        firebaseOb.auth().onAuthStateChanged(function(user){
-            if(user){
-                console.log('sign in successful');
-            }else{
-                console.log('no user');
-                //this.render()
-            }
-        })
-    }
-    
-    componentWillUnmount(){
-        this._isMounted=false
     }
     
     userProfile=(e)=>{
@@ -87,6 +70,7 @@ export class HirerUser extends Component {
                             </div>
                             <div className="vertical2"></div>
                             <div className='split2 right2'>
+                                {/* <button onClick={this.yourPicks}>Your Picks</button> */}
                                 <UserPicks selectedWorkers={selectedWorkers}/>
                             </div>
                         </div>

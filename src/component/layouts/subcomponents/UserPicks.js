@@ -6,44 +6,44 @@ class UserPicks extends Component {
     _isMounted=false
     constructor(props) {
         super(props)
-    
+		
         this.state = {
              selectedWorkers:props.selectedWorkers
         }
-    }
+	}
+    
     
     componentDidMount(){
         this._isMounted=true
-        //here selectedWorkers would be retrieved from database
         let newState=[]
         var currentHirer=firebaseOb.auth().currentUser
         var hirerRef=firebaseOb.database().ref().child('hirers')
-        if(currentHirer){
-            hirerRef.on('value',function(snapshot){
-                snapshot.forEach(function(hirer) {
-                    if(currentHirer.email===hirer.val().hirerEmail){
-                        let myWorkers=hirer.val().selectedWorkers
-                        for(let myWorker in myWorkers){
-                            newState.push({
-                                id: myWorkers[myWorker].id,
-                                name: myWorkers[myWorker].name,
-                                prevWork: myWorkers[myWorker].prevWork
-                            })
-                        }
+        var myMail=currentHirer.email
+        // console.log(myMail);
+        hirerRef.on('value',function(snapshot){
+            snapshot.forEach(function(hirer) {
+                if(myMail===hirer.val().hirerEmail){
+                    let myWorkers=hirer.val().selectedWorkers
+                    for(let myWorker in myWorkers){
+                        newState.push({
+                            id: myWorkers[myWorker].id,
+                            name: myWorkers[myWorker].name,
+                            prevWork: myWorkers[myWorker].prevWork
+                        })
                     }
-                })
+                }
             })
-        }else{
-            this.render()
-        }
+        })
+        
         setInterval(()=>{
+            //console.log(newState);
             if(this._isMounted)
             {
                 this.setState({
                     selectedWorkers: newState
                 })
             }
-        }, 2000)
+        }, 1000)
     }
     
     componentWillUnmount(){
@@ -53,9 +53,10 @@ class UserPicks extends Component {
     onPick=()=>{
         var workerRef=firebaseOb.database().ref().child('workers')
         var myWorkers=this.state.selectedWorkers
-            workerRef.on('value',function(snapshot){
-                snapshot.forEach(function(worker){
-                    myWorkers.map(selectedWorker=>{
+        ///console.log(myWorkers)
+            workerRef.on('value',(snapshot)=>{
+                snapshot.forEach((worker)=>{
+                    myWorkers.forEach(selectedWorker=>{
                         var firebaseDb=firebaseOb.database().ref('workers/'+worker.key)
                         if(worker.key===selectedWorker.id){
                             firebaseDb.update({
@@ -70,7 +71,6 @@ class UserPicks extends Component {
                 })
             })
     }
-    
     
     render() {
         return (

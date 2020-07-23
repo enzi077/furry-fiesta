@@ -1,18 +1,46 @@
 import React, { Component } from 'react'
+import firebaseOb from '../../../firebase'
 import '../../styles/register.css'
 
 class ProfileUpd extends Component {
+    _isMounted=false
     constructor(props) {
         super(props)
         
         //get values of following fields from database here
+        this.currentHirer=firebaseOb.auth().currentUser
+        this.hirerRef=firebaseOb.database().ref().child('hirers')
         this.state = {
              hirerName:'',
-             hirerEmail:'',
-             hirerPassword:'',
              hirerContact:'',
              hirerOrg:''
         }
+    }
+    
+    componentDidMount(){
+        this._isMounted=true
+        let newState=[]
+        this.hirerRef.on('value',snapshot=>{
+            snapshot.forEach(hirer=>{
+                if(this.currentHirer.email===hirer.val().hirerEmail){
+                    newState.push({
+                        hirerName: hirer.val().hirerName,
+                        hirerContact: hirer.val().hirerContact,
+                        hirerOrg: hirer.val().hirerOrg
+                    })
+                }
+            })
+            
+            this.setState({
+                hirerName:newState[0].hirerName,
+                hirerContact:newState[0].hirerContact,
+                hirerOrg:newState[0].hirerOrg
+            })
+        })
+    }
+    
+    componentWillUnmount(){
+        this._isMounted=false
     }
     
     onChngTxt=(e)=>{
@@ -23,20 +51,24 @@ class ProfileUpd extends Component {
     }
     
     submitFormHandler=(e)=>{
-        //receive hirer details from database here
-        //below is for demo purpose only
-        const {hirerName,hirerEmail,hirerContact,hirerOrg}=this.state
-        alert(`
-            Name: ${hirerName},
-            Email: ${hirerEmail},
-            Contact:${hirerContact},
-            Org:${hirerOrg}
-        `)
-        e.preventDefault()
+        const {hirerName,hirerContact,hirerOrg}=this.state
+        
+        this.hirerRef.on('value',(snapshot)=>{
+            snapshot.forEach((hirer)=>{
+                var firebaseDb=firebaseOb.database().ref('hirers/'+hirer.key)
+                if(hirer.key){
+                    firebaseDb.update({
+                        hirerName: hirerName,
+                        hirerContact: hirerContact,
+                        hirerOrg: hirerOrg
+                    })
+                }
+            })
+        })
     }
     
     render() {
-        const {hirerName,hirerEmail,hirerPassword,hirerContact,hirerOrg}=this.state
+        const {hirerName,hirerContact,hirerOrg}=this.state
             return (
                 <div className="containerSignUp">
                     <form onSubmit={this.submitFormHandler}>
@@ -47,20 +79,6 @@ class ProfileUpd extends Component {
                                 placeholder={hirerName}
                                 name="hirerName"
                                 value={hirerName}
-                                onChange={this.onChngTxt}
-                            />
-                            <input
-                                type="email"
-                                placeholder={hirerEmail}
-                                name="hirerEmail"
-                                value={hirerEmail}
-                                onChange={this.onChngTxt}
-                            />
-                            <input
-                                type="password"
-                                placeholder={hirerPassword}
-                                name="hirerPassword"
-                                value={hirerPassword}
                                 onChange={this.onChngTxt}
                             />
                             <input
