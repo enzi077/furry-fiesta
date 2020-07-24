@@ -7,6 +7,7 @@ import HirerUser from './HirerUser'
 import '../styles/hirermain.css'
 
 class HirerMain extends Component {
+    _isMounted=false
     constructor(props) {
         super(props)
     
@@ -20,11 +21,38 @@ class HirerMain extends Component {
         }
     }
     
+    componentDidMount(){
+        this._isMounted=true
+    }
+    
+    componentWillUnmount(){
+        this._isMounted=false
+    }
+    
     onSignIn=()=>{
         this.setState({
             page: 'signin'
         })
     }
+    
+    chngStateFilter=(value)=>{
+        this.setState({
+            state: value
+        })
+    }
+    
+    chngAgeFilter=(value)=>{
+        this.setState({
+            age: value
+        })
+    }
+    
+    chngGenderFilter=(value)=>{
+        this.setState({
+            gender: value
+        })
+    }
+    
     
     render() {
         const{workers,selectedUsers,state,gender,age,page}=this.state
@@ -36,6 +64,9 @@ class HirerMain extends Component {
                         <Filter state={state}
                             gender={gender}
                             age={age}
+                            chngStateFilter={(value)=>this.chngStateFilter(value)}
+                            chngAgeFilter={(value)=>this.chngAgeFilter(value)}
+                            chngGenderFilter={(value)=>this.chngGenderFilter(value)}
                         />
                         <div className='split2 left2'>
                             <WorkerList workers={workers}

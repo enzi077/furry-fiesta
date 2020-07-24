@@ -8,19 +8,17 @@ class WorkerList extends Component {
         super(props)
     
         this.state = {
-             workers: props.workers,
-             selectedWorkers: props.selectedWorkers,
-             state: props.state,
-             gender:props.gender,
-             age:props.age,
+             workers: [],
+             selectedWorkers: [],
+             state: '',
+             gender:'',
+             age:'',
              isChecked: false
         }
     }
     
     componentDidMount(){
         this._isMounted=true
-        //data for both users and selectedUsers would be retrieved from database
-        //get them here
         let newState=[]
         var firebaseDb=firebaseOb.database().ref()
         const workersRef=firebaseDb.child('workers')
@@ -41,7 +39,6 @@ class WorkerList extends Component {
                 }
             })
         })
-        console.log(newState);
         setInterval(()=>{
             if(this._isMounted){
                 this.setState({
@@ -94,14 +91,24 @@ class WorkerList extends Component {
     }
     
     render() {
+        const{state,gender,age}=this.props
+        let workersList=this.state.workers.slice()
+        if(state){
+            workersList=workersList.filter(worker=>worker.state===state)
+        }
+        if(gender){
+            workersList=workersList.filter(worker=>worker.gender===gender)
+        }
+        if(age){
+            workersList=workersList.filter(worker=>worker.age===age)
+        }
         return (
             <div className='containerList'>
                 <h1>Applicants:</h1>
                 <button type="submit" onClick={this.onPick}>Pick</button>
                 <ol type="1">
-                    {this.state.workers.map(
-                        //mapping thorugh each item in users present in databse and performing taks with them
-                        //as below
+                    {workersList
+                    .map(
                         worker=>(
                             <div key={worker.id}>
                                 <li>

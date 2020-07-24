@@ -9,6 +9,7 @@ import Landing from './Landing'
 import firebaseOb from '../../firebase'
 
 export class HirerUser extends Component {
+    _isMounted=false
     constructor(props) {
         super(props)
     
@@ -20,6 +21,32 @@ export class HirerUser extends Component {
              age:'',
              page:'hireruser'
         }
+    }
+    
+    componentDidMount(){
+        this._isMounted=true
+    }
+    
+    componentWillUnmount(){
+        this._isMounted=false
+    }
+    
+    chngStateFilter=(value)=>{
+        this.setState({
+            state: value
+        })
+    }
+    
+    chngAgeFilter=(value)=>{
+        this.setState({
+            age: value
+        })
+    }
+    
+    chngGenderFilter=(value)=>{
+        this.setState({
+            gender: value
+        })
     }
     
     userProfile=(e)=>{
@@ -57,6 +84,9 @@ export class HirerUser extends Component {
                             <Filter state={state}
                                 gender={gender}
                                 age={age}
+                                chngStateFilter={(value)=>this.chngStateFilter(value)}
+                                chngAgeFilter={(value)=>this.chngAgeFilter(value)}
+                                chngGenderFilter={(value)=>this.chngGenderFilter(value)}
                             />
                             <div className='split2 left2'>
                                 {/* users from this page are passed down as props to WorkerList
@@ -120,6 +150,9 @@ export class HirerUser extends Component {
                             <Filter state={state}
                                 gender={gender}
                                 age={age}
+                                chngStateFilter={(value)=>this.chngStateFilter(value)}
+                                chngAgeFilter={(value)=>this.chngAgeFilter(value)}
+                                chngGenderFilter={(value)=>this.chngGenderFilter(value)}
                             />
                             <div className='split2 left2'>
                                 {/* users from this page are passed down as props to WorkerList
