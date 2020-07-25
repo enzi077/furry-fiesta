@@ -8,7 +8,7 @@ class UserPicks extends Component {
         super(props)
 		
         this.state = {
-             selectedWorkers:props.selectedWorkers
+             selectedWorkers:[]
         }
 	}
     
@@ -20,16 +20,18 @@ class UserPicks extends Component {
         var hirerRef=firebaseOb.database().ref().child('hirers')
         var myMail=currentHirer.email
         // console.log(myMail);
-        hirerRef.on('value',function(snapshot){
+        hirerRef.on('value',function(snapshot,prevChildKey){
             snapshot.forEach(function(hirer) {
                 if(myMail===hirer.val().hirerEmail){
                     let myWorkers=hirer.val().selectedWorkers
                     for(let myWorker in myWorkers){
-                        newState.push({
-                            id: myWorkers[myWorker].id,
-                            name: myWorkers[myWorker].name,
-                            prevWork: myWorkers[myWorker].prevWork
-                        })
+                        if(myWorkers[myWorker].id!==prevChildKey){
+                            newState.push({
+                                id: myWorkers[myWorker].id,
+                                name: myWorkers[myWorker].name,
+                                prevWork: myWorkers[myWorker].prevWork
+                            })
+                        }
                     }
                 }
             })
@@ -53,26 +55,29 @@ class UserPicks extends Component {
     onPick=()=>{
         var workerRef=firebaseOb.database().ref().child('workers')
         var myWorkers=this.state.selectedWorkers
+        //send mail to the hirer with all the contact details of the worker
+        //no need to have a data field for avilability
         ///console.log(myWorkers)
-            workerRef.on('value',(snapshot)=>{
-                snapshot.forEach((worker)=>{
-                    myWorkers.forEach(selectedWorker=>{
-                        var firebaseDb=firebaseOb.database().ref('workers/'+worker.key)
-                        if(worker.key===selectedWorker.id){
-                            firebaseDb.update({
-                                available: false
-                            })
-                        }else{
-                            firebaseDb.update({
-                                available: true
-                            })
-                        }
-                    })
-                })
-            })
+            // workerRef.once('value',(snapshot)=>{
+            //     snapshot.forEach((worker)=>{
+            //         myWorkers.forEach(selectedWorker=>{
+            //             var firebaseDb=firebaseOb.database().ref('workers/'+worker.key)
+            //             if(worker.key===selectedWorker.id){
+            //                 firebaseDb.update({
+            //                     available: false
+            //                 })
+            //             }else{
+            //                 firebaseDb.update({
+            //                     available: true
+            //                 })
+            //             }
+            //         })
+            //     })
+            // })
     }
     
     render() {
+        //let myList=this.state.selectedWorkers.slice()
         return (
             <div className='containerPicks'>
                 <h1>Your picks :</h1>

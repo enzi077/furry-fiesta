@@ -2,13 +2,14 @@ import * as firebase from 'firebase'
 import 'firebase/auth'
 // Your web app's Firebase configuration
   var firebaseConfig = {
-    apiKey: "AIzaSyBIQvNooAdiuAxZi0kSv8ibDXiRV3ccXQ4",
-    authDomain: "labourer-migrant.firebaseapp.com",
-    databaseURL: "https://labourer-migrant.firebaseio.com",
-    projectId: "labourer-migrant",
-    storageBucket: "labourer-migrant.appspot.com",
-    messagingSenderId: "718432872945",
-    appId: "1:718432872945:web:76c5c2659c4f3f06e27c50"
+    apiKey: "AIzaSyDwQfHCPIfb6XKTYVMW7j3aU403tqTzvqU",
+    authDomain: "kaamdani-india.firebaseapp.com",
+    databaseURL: "https://kaamdani-india.firebaseio.com",
+    projectId: "kaamdani-india",
+    storageBucket: "kaamdani-india.appspot.com",
+    messagingSenderId: "371496610936",
+    appId: "1:371496610936:web:a72b3863284f40c0f5118d",
+    measurementId: "G-99YMJCHJ3X"
   };
   // Initialize Firebase
 const firebaseOb=firebase.initializeApp(firebaseConfig);

@@ -19,12 +19,18 @@ export class HirerUser extends Component {
              state:'',
              gender:'',
              age:'',
-             page:'hireruser'
+             page:'hireruser',
+             username:''
         }
     }
     
     componentDidMount(){
         this._isMounted=true
+        var currentHirer=firebaseOb.auth().currentUser
+        var myMail=currentHirer.email
+        this.setState({
+            username: myMail
+        })
     }
     
     componentWillUnmount(){
@@ -67,7 +73,7 @@ export class HirerUser extends Component {
     }
     
     render() {
-        const {workers,selectedWorkers,age,gender,state,page}=this.state
+        const {workers,selectedWorkers,age,gender,state,page,username}=this.state
         switch (page) {
             case 'hireruser':
                 return(
@@ -76,7 +82,7 @@ export class HirerUser extends Component {
                             <h1>Kaamdani</h1>
                             <select className='userProfile' onChange={this.userProfile}>
                                 {/* {users.name will display user's name after authorization } */}
-                                <option value="" selected disabled>{}
+                                <option value="" selected disabled>{username}
                                 </option>
                                 <option value="profile">Profile</option>
                                 <option value="signout">Signout</option>
@@ -113,7 +119,7 @@ export class HirerUser extends Component {
                             <h1>Kaamdani</h1>
                             <select className='userProfile' onChange={this.userProfile}>
                                 {/* {users.name will display user's name after authorization } */}
-                                <option value="" selected="selected" disabled>{}
+                                <option value="" selected="selected" disabled>{username}
                                 </option>
                                 <option value="hireruser">Worker List</option>
                                 <option value="signout">Signout</option>
@@ -142,7 +148,7 @@ export class HirerUser extends Component {
                             <h1>Kaamdani</h1>
                             <select className='userProfile' onChange={this.userProfile}>
                                 {/* {users.name will display user's name after authorization } */}
-                                <option value="" selected disabled>{}
+                                <option value="" selected disabled>{username}
                                 </option>
                                 <option value="profile">Profile</option>
                                 <option value="signout">Signout</option>

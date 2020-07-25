@@ -69,7 +69,7 @@ class ProfileList extends Component {
     onDel=()=>{
         var currentHirer=firebaseOb.auth().currentUser
         var hirerRef=firebaseOb.database().ref().child('hirers')
-        var workerRef=firebaseOb.database().ref().child('workers')
+        //var workerRef=firebaseOb.database().ref().child('workers')
         if(currentHirer)
         {
             var setNewWorker= []
@@ -85,23 +85,23 @@ class ProfileList extends Component {
                 })
             })
             
-            var updtWorkerList=this.state.workerAvailable
-            workerRef.on('value',function(snapshot){
-                snapshot.forEach(function(worker){
-                    updtWorkerList.forEach(updtWorker=>{
-                        var firebaseDb=firebaseOb.database().ref('workers/'+worker.key)
-                        if(worker.key===updtWorker.id){
-                            firebaseDb.update({
-                                available: true
-                            })
-                        }else{
-                            firebaseDb.update({
-                                available: false
-                            })
-                        }
-                    })
-                })
-            })
+            // var updtWorkerList=this.state.workerAvailable
+            // workerRef.on('value',function(snapshot){
+            //     snapshot.forEach(function(worker){
+            //         updtWorkerList.forEach(updtWorker=>{
+            //             var firebaseDb=firebaseOb.database().ref('workers/'+worker.key)
+            //             if(worker.key===updtWorker.id){
+            //                 firebaseDb.update({
+            //                     available: true
+            //                 })
+            //             }else{
+            //                 firebaseDb.update({
+            //                     available: false
+            //                 })
+            //             }
+            //         })
+            //     })
+            // })
         }else{
             this.render()
         }
