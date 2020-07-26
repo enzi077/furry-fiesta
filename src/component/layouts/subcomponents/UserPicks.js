@@ -80,7 +80,7 @@ class UserPicks extends Component {
         // Email.send({
         //     Host : "smtp.yourisp.com",
         //     Username : "kaamdani01@gmail.com",
-        //     Password : "kaamdani!234",
+        //     Password : "**********",
         //     To : hirer_mail,
         //     From : "kaamdani01@gmail.com",
         //     Subject : "Kaamdani (Your workers)",
