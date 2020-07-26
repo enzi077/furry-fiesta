@@ -95,6 +95,7 @@ class ProfileList extends Component {
                     })
                 })
             })
+            this.props.reloadForProfile()
         }else{
             this.render()
         }

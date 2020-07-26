@@ -43,6 +43,18 @@ class SignIn extends Component {
     
     forgotPassword=(e)=>{
         //code for reset of passoword
+        //console.log(this.state.hirerEmail);
+        if(this.state.hirerEmail){
+            firebaseOb.auth().sendPasswordResetEmail(this.state.hirerEmail)
+                .then(()=>{
+                    alert("Check your email")
+                })
+                .catch(()=>{
+                    alert("Email not found! Please register.")
+                })
+        }else{
+            alert("Fill the email field above to get your reset mail!")
+        }
     }
     
     gotoSignUp=()=>{

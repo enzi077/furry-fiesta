@@ -28,8 +28,6 @@ class ProfileUpd extends Component {
                         hirerContact: hirer.val().hirerContact,
                         hirerOrg: hirer.val().hirerOrg
                     })
-                }else{
-                    alert("No data found")
                 }
             })
             if(this._isMounted){

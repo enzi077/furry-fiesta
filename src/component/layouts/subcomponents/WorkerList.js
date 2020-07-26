@@ -82,8 +82,6 @@ class WorkerList extends Component {
                             firebaseDb.update({
                                 selectedWorkers: myWorkers
                             })
-                    }else{
-                        alert("No data found")
                     }
                 })
             })

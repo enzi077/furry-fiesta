@@ -76,6 +76,12 @@ export class HirerUser extends Component {
         })
     }
     
+    reloadForProfile=()=>{
+        this.setState({
+            page:'hireruser'
+        })
+    }
+    
     render() {
         const {age,gender,state,page,username}=this.state
         switch (page) {
@@ -126,7 +132,7 @@ export class HirerUser extends Component {
                                 <option value="signout">Signout</option>
                             </select>
                             <div className='split2 left2'>
-                                <ProfileList/>
+                                <ProfileList reloadForProfile={this.reloadForProfile}/>
                             </div>
                             <div className="vertical2"></div>
                             <div className='split2 right2'>

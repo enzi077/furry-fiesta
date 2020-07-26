@@ -62,6 +62,7 @@ class UserPicks extends Component {
         //send mail to the hirer with all the contact details of the worker
         //no need to have a data field for avilability
         // BODY_TXT contains email write up to be sent
+        alert("Check your mail.")
         var body_txt=myWorkers.map(worker=>{
             return (
                 `Name=${worker.name} \n`+
