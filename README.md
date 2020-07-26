@@ -66,3 +66,11 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+### Working
+
+The site's functionality draws comparison with LinkedIn. Component WorkerList.js shows a list of available migrant workers, which when picked after selecting are uploaded to the database and the components UserPicks.js and ProfileList.js show the selected workers of that particular user as a list. When a user clicks on 'Hire' button in the UserPicks.js component, the user should receive an automatic email with all the workers' details he has selected to be hired. If a user removes an item from ProfileList.js it should be removed from the database and should be rendered on the front end at the same time. If a user wants to update his profile details, it can be done with the component ProfileUpd.js. Filter.js component renders list according to the corresponding conditions menmtioned in it. (No API used for Location; manually coded) WorkerForm.js only concerns with the user form data. (P.S. The worker should not be concerned with anything else other than submitting his her details; this is where it's different than LinkedIn)
+
+### Purpose
+
+The purpose of this site would be to help all the migrant people (India) to get hired by people who are looking for industrial level helpers or even domestic or personal helpers to aid their conditions. 
