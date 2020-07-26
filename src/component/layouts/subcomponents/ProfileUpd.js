@@ -28,14 +28,17 @@ class ProfileUpd extends Component {
                         hirerContact: hirer.val().hirerContact,
                         hirerOrg: hirer.val().hirerOrg
                     })
+                }else{
+                    alert("No data found")
                 }
             })
-            
-            this.setState({
-                hirerName:newState[0].hirerName,
-                hirerContact:newState[0].hirerContact,
-                hirerOrg:newState[0].hirerOrg
-            })
+            if(this._isMounted){
+                this.setState({
+                    hirerName:newState[0].hirerName,
+                    hirerContact:newState[0].hirerContact,
+                    hirerOrg:newState[0].hirerOrg
+                })
+            }
         })
     }
     
@@ -62,6 +65,8 @@ class ProfileUpd extends Component {
                         hirerContact: hirerContact,
                         hirerOrg: hirerOrg
                     })
+                }else{
+                    alert("Profile details not found")
                 }
             })
         })

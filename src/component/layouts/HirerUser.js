@@ -14,8 +14,6 @@ export class HirerUser extends Component {
         super(props)
     
         this.state = {
-             workers:[],
-             selectedWorkers:[],
              state:'',
              gender:'',
              age:'',
@@ -72,8 +70,14 @@ export class HirerUser extends Component {
         }
     }
     
+    reload=()=>{
+        this.setState({
+            page:'profile'
+        })
+    }
+    
     render() {
-        const {workers,selectedWorkers,age,gender,state,page,username}=this.state
+        const {age,gender,state,page,username}=this.state
         switch (page) {
             case 'hireruser':
                 return(
@@ -95,19 +99,16 @@ export class HirerUser extends Component {
                                 chngGenderFilter={(value)=>this.chngGenderFilter(value)}
                             />
                             <div className='split2 left2'>
-                                {/* users from this page are passed down as props to WorkerList
-                                worker list will then handle the props accordingly and return the values here */}
-                                <WorkerList workers={workers} 
-                                    selectedWorkers={selectedWorkers}
+                                <WorkerList  
                                     state={state}
                                     gender={gender}
                                     age={age}
+                                    reload={this.reload}
                                     />
                             </div>
                             <div className="vertical2"></div>
                             <div className='split2 right2'>
-                                {/* <button onClick={this.yourPicks}>Your Picks</button> */}
-                                <UserPicks selectedWorkers={selectedWorkers}/>
+                                <UserPicks/>
                             </div>
                         </div>
                     </div>
@@ -125,12 +126,7 @@ export class HirerUser extends Component {
                                 <option value="signout">Signout</option>
                             </select>
                             <div className='split2 left2'>
-                                <ProfileList
-                                    selectedWorkers={selectedWorkers}
-                                    state={state}
-                                    gender={gender}
-                                    age={age}
-                                />
+                                <ProfileList/>
                             </div>
                             <div className="vertical2"></div>
                             <div className='split2 right2'>
@@ -161,18 +157,16 @@ export class HirerUser extends Component {
                                 chngGenderFilter={(value)=>this.chngGenderFilter(value)}
                             />
                             <div className='split2 left2'>
-                                {/* users from this page are passed down as props to WorkerList
-                                worker list will then handle the props accordingly and return the values here */}
-                                <WorkerList workers={workers} 
-                                    selectedWorkers={selectedWorkers}
+                                <WorkerList
                                     state={state}
                                     gender={gender}
                                     age={age}
+                                    reload={this.reload}
                                     />
                             </div>
                             <div className="vertical2"></div>
                             <div className='split2 right2'>
-                                <UserPicks selectedWorkers={selectedWorkers}/>
+                                <UserPicks/>
                             </div>
                         </div>
                     </div>

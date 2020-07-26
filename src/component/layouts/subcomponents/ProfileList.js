@@ -8,7 +8,7 @@ class ProfileList extends Component {
         super(props)
     
         this.state = {
-             selectedWorkers: props.selectedWorkers,
+             selectedWorkers: [],
              updateWorker:[],
              workerAvailable:[]
         }
@@ -27,6 +27,11 @@ class ProfileList extends Component {
                         newState.push({
                             id: myWorkers[myWorker].id,
                             name: myWorkers[myWorker].name,
+                            age: myWorkers[myWorker].age,
+                            gender: myWorkers[myWorker].gender,
+                            state: myWorkers[myWorker].state,
+                            city: myWorkers[myWorker].city,
+                            contact: myWorkers[myWorker].contact,
                             prevWork: myWorkers[myWorker].prevWork
                         })
                     }
@@ -35,14 +40,14 @@ class ProfileList extends Component {
         })
         
         //setInterval(()=>{
-            console.log(newState);
+            //console.log(newState);
             if(this._isMounted)
             {
                 this.setState({
                     selectedWorkers: newState
                 })
             }
-        //}, 50)
+        //}, 1000)
     }
     
     componentWillUnmount(){
@@ -53,55 +58,43 @@ class ProfileList extends Component {
     handleChange=(worker,e)=>{
         if(e.target.checked===true){
             this.setState({
-                // updateWorker:this.state.updateWorker.filter(function(person){
-                //     return person!==worker
-                // })
                 workerAvailable:[...this.state.workerAvailable,worker]
             })
         }else{
             this.setState({
-                updateWorker:[...this.state.updateWorker,worker]
+                updateWorker:worker
             })
         }
     }
     
     //confirms the removal of Worker from the hirer's selectedWorkers list
     onDel=()=>{
+        var rem=this.state.workerAvailable
         var currentHirer=firebaseOb.auth().currentUser
         var hirerRef=firebaseOb.database().ref().child('hirers')
-        //var workerRef=firebaseOb.database().ref().child('workers')
         if(currentHirer)
         {
-            var setNewWorker= []
-            setNewWorker=this.state.updateWorker
             hirerRef.on('value',function(snapshot){
                 snapshot.forEach(function(hirer){
-                    if(currentHirer.email===hirer.val().hirerEmail){
-                        var firebaseDb=firebaseOb.database().ref('hirers/'+hirer.key)
-                            firebaseDb.update({
-                                selectedWorkers: setNewWorker
+                    rem.forEach(delWorker=>{
+                        if(currentHirer.email===hirer.val().hirerEmail){
+                            var firebaseDb=firebaseOb.database().ref('hirers/'+hirer.key)
+                                            .child('selectedWorkers')
+                            firebaseDb.on('value',snap=>{
+                                snap.forEach(del=>{
+                                    if(delWorker.id===del.val().id){
+                                        firebaseOb.database().ref(
+                                            'hirers/'+
+                                            hirer.key+
+                                            '/selectedWorkers'
+                                        ).child(del.key).remove()
+                                    }
+                                })
                             })
-                    }
+                        }
+                    })
                 })
             })
-            
-            // var updtWorkerList=this.state.workerAvailable
-            // workerRef.on('value',function(snapshot){
-            //     snapshot.forEach(function(worker){
-            //         updtWorkerList.forEach(updtWorker=>{
-            //             var firebaseDb=firebaseOb.database().ref('workers/'+worker.key)
-            //             if(worker.key===updtWorker.id){
-            //                 firebaseDb.update({
-            //                     available: true
-            //                 })
-            //             }else{
-            //                 firebaseDb.update({
-            //                     available: false
-            //                 })
-            //             }
-            //         })
-            //     })
-            // })
         }else{
             this.render()
         }

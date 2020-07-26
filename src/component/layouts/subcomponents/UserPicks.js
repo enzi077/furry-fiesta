@@ -7,6 +7,7 @@ class UserPicks extends Component {
     constructor(props) {
         super(props)
 		
+        this.currentHirer=firebaseOb.auth().currentUser
         this.state = {
              selectedWorkers:[]
         }
@@ -16,9 +17,8 @@ class UserPicks extends Component {
     componentDidMount(){
         this._isMounted=true
         let newState=[]
-        var currentHirer=firebaseOb.auth().currentUser
         var hirerRef=firebaseOb.database().ref().child('hirers')
-        var myMail=currentHirer.email
+        var myMail=this.currentHirer.email
         // console.log(myMail);
         hirerRef.on('value',function(snapshot,prevChildKey){
             snapshot.forEach(function(hirer) {
@@ -29,6 +29,11 @@ class UserPicks extends Component {
                             newState.push({
                                 id: myWorkers[myWorker].id,
                                 name: myWorkers[myWorker].name,
+                                age: myWorkers[myWorker].age,
+                                gender: myWorkers[myWorker].gender,
+                                state: myWorkers[myWorker].state,
+                                city: myWorkers[myWorker].city,
+                                contact: myWorkers[myWorker].contact,
                                 prevWork: myWorkers[myWorker].prevWork
                             })
                         }
@@ -53,31 +58,38 @@ class UserPicks extends Component {
     }
     
     onPick=()=>{
-        var workerRef=firebaseOb.database().ref().child('workers')
         var myWorkers=this.state.selectedWorkers
         //send mail to the hirer with all the contact details of the worker
         //no need to have a data field for avilability
-        ///console.log(myWorkers)
-            // workerRef.once('value',(snapshot)=>{
-            //     snapshot.forEach((worker)=>{
-            //         myWorkers.forEach(selectedWorker=>{
-            //             var firebaseDb=firebaseOb.database().ref('workers/'+worker.key)
-            //             if(worker.key===selectedWorker.id){
-            //                 firebaseDb.update({
-            //                     available: false
-            //                 })
-            //             }else{
-            //                 firebaseDb.update({
-            //                     available: true
-            //                 })
-            //             }
-            //         })
-            //     })
-            // })
+        // BODY_TXT contains email write up to be sent
+        var body_txt=myWorkers.map(worker=>{
+            return (
+                `Name=${worker.name} \n`+
+                `Age=${worker.age} yrs \n`+
+                `Gender=${worker.gender} \n`+
+                `State=${worker.state} \n`+
+                `City=${worker.city} \n`+
+                `Contact=${worker.contact} \n`+
+                `Previously worked as=${worker.prevWork} || \n\n`
+            )
+        })
+        //console.log(name);
+        // var hirer_mail=this.currentHirer.email
+        // console.log(hirer_mail);
+        // Email.send({
+        //     Host : "smtp.yourisp.com",
+        //     Username : "kaamdani01@gmail.com",
+        //     Password : "kaamdani!234",
+        //     To : hirer_mail,
+        //     From : "kaamdani01@gmail.com",
+        //     Subject : "Kaamdani (Your workers)",
+        //     Body : body_txt
+        // }).then(
+        // message => alert(message)
+        // )
     }
     
     render() {
-        //let myList=this.state.selectedWorkers.slice()
         return (
             <div className='containerPicks'>
                 <h1>Your picks :</h1>

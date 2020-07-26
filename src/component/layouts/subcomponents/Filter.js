@@ -24,7 +24,7 @@ class Filter extends Component {
         return (
             <div className="filterBar">
                 <select value={state} onChange={this.chngStateFilter}>
-                    <option value="" selected disabled>Location</option>
+                    <option value="" disabled>Location</option>
                     <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
                     <option value="Andhra Pradesh">Andhra Pradesh</option>
                     <option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -63,13 +63,13 @@ class Filter extends Component {
                     <option value="West Bengal">West Bengal</option>
                 </select>
                 <select value={gender} onChange={this.chngGenderFilter}>
-                    <option value="" selected disabled>Gender</option>
+                    <option value="" disabled>Gender</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                     <option value="other">Other (LGBTQ+)</option>
                 </select>
                 <select value={age} onChange={this.chngAgeFilter}>
-                    <option value="" selected disabled>Age</option>
+                    <option value="" disabled>Age</option>
                     <option value="20-30">20-30</option>
                     <option value="31-40">31-40</option>
                     <option value="41-50">41-50</option>

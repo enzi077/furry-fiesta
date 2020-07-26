@@ -12,8 +12,7 @@ class WorkerList extends Component {
              selectedWorkers: [],
              state: '',
              gender:'',
-             age:'',
-             isChecked: false
+             age:''
         }
     }
     
@@ -75,8 +74,6 @@ class WorkerList extends Component {
         if(currentHirer)
         {
             var myWorkers= []
-            //let workersList=this.state.workers.slice()
-            //let selectedList=this.state.selectedWorkers.slice()
             myWorkers=this.state.selectedWorkers
             hirerRef.once('value',function(snapshot){
                 snapshot.forEach(function(hirer){
@@ -85,13 +82,12 @@ class WorkerList extends Component {
                             firebaseDb.update({
                                 selectedWorkers: myWorkers
                             })
+                    }else{
+                        alert("No data found")
                     }
                 })
             })
-            
-            // this.setState({
-            //     workers: workersList.filter((obj)=>{ return selectedList.indexOf(obj) === -1; })
-            // })
+            this.props.reload()
         }else{
             this.render()
         }

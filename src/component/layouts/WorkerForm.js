@@ -18,7 +18,7 @@ class WorkerForm extends Component {
              prevWork:'',
              contact:'',
              available:true,
-             page: props.page
+             page: 'worker_form'
         }
     }
     
