@@ -65,16 +65,22 @@ class WorkerForm extends Component {
             available
         }
         
-        firebaseDb.child('workers').push(
-            data,
-            err=>{
-                if(err)
-                    console.log(err);
-            }
-        )
-        this.setState({
-            page:'home'
-        })
+        if(name && gender && age && city && state && contact){
+            firebaseDb.child('workers').push(
+                data,
+                err=>{
+                    if(err)
+                        console.log(err);
+                }
+            )
+            
+            this.setState({
+                page:'home'
+            })
+        }else{
+            e.preventDefault()
+            alert("Fill all the required (*) fields")
+        }
         e.preventDefault()
     }
     
